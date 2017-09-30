@@ -15,12 +15,10 @@
         background-color: greenyellow;
     }
 
-    textarea {
-        height: 100%;
-        resize: none;
-        border-top: none;
-        border-bottom: none;
-        border-color: grey;
+    .TT {
+        width: 100%;
+        min-height: 500px;
+
     }
 
 
@@ -35,9 +33,6 @@
     .hidden {
         display: none;
     }
-        textarea{
-            width: 100%;
-        }
 
 
     </style>
@@ -70,21 +65,46 @@
 
 <div id="container">
     <div class="row">
-    <textarea id="htmlPanel" class=" col-sm" ><p id="paragraph">Hello World</p></textarea>
-    <textarea id="cssPanel" class=" hidden col-sm">p{color:red;}</textarea>
-    <textarea id="javascriptPanel" class=" hidden col-sm">document.getElementById("paragraph").innerHTML="Hello Buddy";</textarea>
+    <div id="htmlPanel" class="TT col-sm" ></div>
+    <div id="cssPanel" class="TT hidden col-sm"></div>
+    <div id="javascriptPanel" class="TT hidden col-sm">document.getElementById("paragraph").innerHTML="Hello Buddy";</div>
     <iframe id="outputPanel" class=" col-sm"></iframe>
     </div>
 </div>
-<script type="text/javascript">function update() {
-    $("iframe").contents().find("html").html('<html lang="en">' + '<head>' + '<meta charset="UTF-8">' + '<title>Title</title>' + '<style type="text/css">' + $("#cssPanel").val() + '</style>' + '</head>' + '<body>' + $("#htmlPanel").val() + '</body>' + '</html>');
+
+
+
+
+
+
+<script src="src-min/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+    var editor = ace.edit("htmlPanel");
+    editor.setValue('<p id="paragraph">Hello World</p>');
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/html");
+
+    var editorCSS = ace.edit("cssPanel");
+    editorCSS.setValue('p{\n\tcolor:red;\n}');
+    editorCSS.setTheme("ace/theme/monokai");
+    editorCSS.getSession().setMode("ace/mode/css");
+
+    var editorJs = ace.edit("javascriptPanel");
+    editorJs.setTheme("ace/theme/monokai");
+    editorJs.getSession().setMode("ace/mode/javascript");
+
+
+
+    function update() {
+    $("iframe").contents().find("html").html('<html lang="en">' + '<head>' + '<meta charset="UTF-8">' + '<title>Title</title>' + '<style type="text/css">' + editorCSS.getValue() + '</style>' + '</head>' + '<body>' + editor.getValue() + '</body>' + '</html>');
 }
 function updateJs() {
-    document.getElementById("outputPanel").contentWindow.eval($("#javascriptPanel").val());
+    document.getElementById("outputPanel").contentWindow.eval(editorJs.getValue());
 }
-$("iframe").contents().find("html").html($("#htmlPanel").val());
+$("iframe").contents().find("html").html(editor.getValue());
 var numberOfActiePanel = 4;
-$("textarea").on('change keyup paste', function () {
+$(".TT").on('change keyup paste', function () {
     update();
     if ($(this).attr("id") == "javascriptPanel") {
         updateJs();
