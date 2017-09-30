@@ -18,6 +18,7 @@
     .TT {
         width: 100%;
         min-height: 500px;
+        border-color: black;
 
     }
 
@@ -67,7 +68,7 @@
     <div class="row">
     <div id="htmlPanel" class="TT col-sm" ></div>
     <div id="cssPanel" class="TT hidden col-sm"></div>
-    <div id="javascriptPanel" class="TT hidden col-sm">document.getElementById("paragraph").innerHTML="Hello Buddy";</div>
+    <div id="javascriptPanel" class="TT hidden col-sm"></div>
     <iframe id="outputPanel" class=" col-sm"></iframe>
     </div>
 </div>
@@ -82,16 +83,20 @@
 <script type="text/javascript">
     var editor = ace.edit("htmlPanel");
     editor.setValue('<p id="paragraph">Hello World</p>');
-    editor.setTheme("ace/theme/monokai");
+    editor.setTheme("ace/theme/clouds");
+    editor.setShowPrintMargin(false);
     editor.getSession().setMode("ace/mode/html");
 
     var editorCSS = ace.edit("cssPanel");
     editorCSS.setValue('p{\n\tcolor:red;\n}');
-    editorCSS.setTheme("ace/theme/monokai");
+    editorCSS.setTheme("ace/theme/clouds");
+    editorCSS.setShowPrintMargin(false);
     editorCSS.getSession().setMode("ace/mode/css");
 
     var editorJs = ace.edit("javascriptPanel");
-    editorJs.setTheme("ace/theme/monokai");
+    editorJs.setValue('document.getElementById("paragraph").innerHTML="Hello Buddy";');
+    editorJs.setShowPrintMargin(false);
+    editorJs.setTheme("ace/theme/clouds");
     editorJs.getSession().setMode("ace/mode/javascript");
 
 
