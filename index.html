@@ -5,21 +5,23 @@
     <title>CodePlayer</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <style>
-
         iframe {
-            border: none;
+            border-style: solid;
+            border-top: none;
+            border-right: none;
+            border-bottom: none;
+            border-left-width: 40px;
+            border-left-color: #EBEBEB;
         }
-
         html, body {
             padding: 0;
             margin: 0;
             height: 100%;
             min-height: 100%;
         }
-
         .quarter {
             width: 50%;
-            height: 100%;
+            height: 95%;
             float: left;
         }
         .contents {
@@ -30,21 +32,26 @@
             margin-bottom: 1px;
             margin-top: 1px;
             font-family: 'Times New Roman'
-
+        }
+        .title{
+            margin: 0px;
+            text-align: center;
+            background-color: #EBEBEB;
+            font-family: "Times New Roman";
         }
     </style>
 </head>
 <body>
 
 <div class="contents">
-    <h2 id="logo">CodePlayer</h2>
-    <div id="htmlPanel" class="col-md-6 quarter TT">&ltp id="paragraph"&gtHello World&lt/p&gt</div>
-    <div id="cssPanel" class="col-md-6 quarter TT" title="CSS">p{
+    <h2 id="logo" style="text-align: center">CodePlayer</h2>
+    <div class="col-md-6 quarter"><h4 class="title">HTML</h4><div id="htmlPanel" class="col-md-6 quarter TT">&ltp id="paragraph"&gtHello World&lt/p&gt</div></div>
+    <div class="col-md-6 quarter"><h4 class="title">CSS</h4><div id="cssPanel" class="col-md-6 quarter TT" title="CSS">p{
     color:red;
-}</div>
-    <div id="javascriptPanel" class="col-md-6 quarter TT">document.getElementById("paragraph").innerHTML="Hello Buddy";</div>
-    <iframe id="outputPanel" class="col-md-6 quarter TT "></iframe>
-</div>
+}</div></div>
+    <div class="col-md-6 quarter"><h4 class="title">JavaScript</h4><div id="javascriptPanel" class="col-md-6 quarter TT">document.getElementById("paragraph").innerHTML="Hello Buddy";</div></div>
+    <div class="col-md-6 quarter"><h4 class="title">Output</h4><iframe id="outputPanel" class="col-md-6 quarter TT "></iframe>
+    </div></div>
 
 <script src="src-min/ace.js" type="text/javascript" charset="utf-8"></script>
 
@@ -63,7 +70,6 @@
     editorJs.setShowPrintMargin(false);
     editorJs.setTheme("ace/theme/clouds");
     editorJs.getSession().setMode("ace/mode/javascript");
-
 
     function update() {
         $("iframe").contents().find("html").html('<html lang="en">' + '<head>' + '<meta charset="UTF-8">' + '' + '<title>Title</title>' + '<style type="text/css">' + editorCSS.getValue() + '</style>' + '</head>' + '<body>' + editor.getValue() + '</body>' + '</html>');
