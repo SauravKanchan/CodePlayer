@@ -4,126 +4,81 @@
     <meta charset="UTF-8">
     <title>CodePlayer</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    <style>body {
-        font-family: sans-serif;
-        padding: 0;
-        margin: 0;
-    }
-    .highLightedClass {
-        background-color: greenyellow;
-    }
+    <style>
 
-    .TT {
-        width: 100%;
-        min-height: 500px;
-        border-color: black;
+        iframe {
+            border: none;
+        }
 
-    }
+        html, body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            min-height: 100%;
+        }
 
+        .quarter {
+            width: 50%;
+            height: 100%;
+            float: left;
+        }
+        .contents {
+            height: 50%;
+            width: 100%;
+        }
+        #logo {
+            margin-bottom: 1px;
+            margin-top: 1px;
+            font-family: 'Times New Roman'
 
-    iframe {
-        border: none;
-    }
-    .toggleButton{
-        color: white;
-        margin-left: 10px;margin-right: 10px
-
-    }
-    .hidden {
-        display: none;
-    }
-
-
+        }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse ">
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="#">CodePlayer</a>
 
-    <div class="collapse navbar-collapse " id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item toggleButton btn  btn-success" id="html">
-                HTML
-            </li>
-            <li class="nav-item toggleButton btn " id="css">
-                CSS
-            </li>
-            <li class="nav-item toggleButton btn " id="javascript">
-                JavaScript
-            </li>
-            <li class="toggleButton btn btn-success nav-item " id="output">
-                Output
-
-            </li>
-        </ul>
-    </div>
-</nav>
-
-<div id="container">
-    <div class="row">
-    <div id="htmlPanel" class="TT col-sm" ></div>
-    <div id="cssPanel" class="TT hidden col-sm"></div>
-    <div id="javascriptPanel" class="TT hidden col-sm"></div>
-    <iframe id="outputPanel" class=" col-sm"></iframe>
-    </div>
+<div class="contents">
+    <h2 id="logo">CodePlayer</h2>
+    <div id="htmlPanel" class="col-md-6 quarter TT">&ltp id="paragraph"&gtHello World&lt/p&gt</div>
+    <div id="cssPanel" class="col-md-6 quarter TT" title="CSS">p{
+    color:red;
+}</div>
+    <div id="javascriptPanel" class="col-md-6 quarter TT">document.getElementById("paragraph").innerHTML="Hello Buddy";</div>
+    <iframe id="outputPanel" class="col-md-6 quarter TT "></iframe>
 </div>
-
-
-
-
-
 
 <script src="src-min/ace.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript">
     var editor = ace.edit("htmlPanel");
-    editor.setValue('<p id="paragraph">Hello World</p>');
     editor.setTheme("ace/theme/clouds");
     editor.setShowPrintMargin(false);
     editor.getSession().setMode("ace/mode/html");
 
     var editorCSS = ace.edit("cssPanel");
-    editorCSS.setValue('p{\n\tcolor:red;\n}');
     editorCSS.setTheme("ace/theme/clouds");
     editorCSS.setShowPrintMargin(false);
     editorCSS.getSession().setMode("ace/mode/css");
 
     var editorJs = ace.edit("javascriptPanel");
-    editorJs.setValue('document.getElementById("paragraph").innerHTML="Hello Buddy";');
     editorJs.setShowPrintMargin(false);
     editorJs.setTheme("ace/theme/clouds");
     editorJs.getSession().setMode("ace/mode/javascript");
 
 
-
     function update() {
-    $("iframe").contents().find("html").html('<html lang="en">' + '<head>' + '<meta charset="UTF-8">' + '<title>Title</title>' + '<style type="text/css">' + editorCSS.getValue() + '</style>' + '</head>' + '<body>' + editor.getValue() + '</body>' + '</html>');
-}
-function updateJs() {
-    document.getElementById("outputPanel").contentWindow.eval(editorJs.getValue());
-}
-$("iframe").contents().find("html").html(editor.getValue());
-var numberOfActiePanel = 4;
-$(".TT").on('change keyup paste', function () {
-    update();
-    if ($(this).attr("id") == "javascriptPanel") {
-        updateJs();
+        $("iframe").contents().find("html").html('<html lang="en">' + '<head>' + '<meta charset="UTF-8">' + '' + '<title>Title</title>' + '<style type="text/css">' + editorCSS.getValue() + '</style>' + '</head>' + '<body>' + editor.getValue() + '</body>' + '</html>');
     }
-});
-$(".toggleButton").hover(function () {
-    $(this).addClass("highLightedClass");
-}, function () {
-    $(this).removeClass("highLightedClass");
-}).click(function () {
-    $(this).toggleClass("btn-success");
-    $(this).removeClass("highLightedClass");
-    $("#" + ($(this).attr("id") + "Panel")).toggleClass("hidden");
-});
-update(); </script>
+    function updateJs() {
+        document.getElementById("outputPanel").contentWindow.eval(editorJs.getValue());
+    }
+    $("iframe").contents().find("html").html(editor.getValue());
+    var numberOfActiePanel = 4;
+    $(".TT").on('change keyup paste', function () {
+        update();
+        if ($(this).attr("id") == "javascriptPanel") {
+            updateJs();
+        }
+    });
+</script>
 </body>
 </html>
