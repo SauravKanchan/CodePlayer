@@ -1,1 +1,1 @@
-
+- [ ] Add django allauth for login
